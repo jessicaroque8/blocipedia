@@ -11,6 +11,7 @@ source 'https://rubygems.org'
  group :production do
    # Use pg as the production database for Active Record
    gem 'pg'
+   gem 'rails_12factor'
  end
 
  group :development do
@@ -33,8 +34,19 @@ source 'https://rubygems.org'
  # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
  gem 'jbuilder', '~> 2.5'
 
- gem 'thor', '0.19.1'
+ gem 'thor', '0.20'
 
  group :development do
    gem 'listen', '~> 3.0.5'
  end
+
+ group :development, :test do
+   gem 'rspec-rails', '~> 3.0'
+   gem 'rails-controller-testing'
+ end
+
+  gem 'bootstrap-sass'
+
+  gem 'devise'
+
+  gem 'omniauth', '>= 1.0.0'
