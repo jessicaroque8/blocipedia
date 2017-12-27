@@ -45,8 +45,11 @@ source 'https://rubygems.org'
    gem 'rails-controller-testing'
    gem 'shoulda'
    gem 'factory_bot_rails'
+   gem 'byebug'
  end
 
   gem 'bootstrap-sass'
 
   gem 'devise'
+
+  gem 'pundit'
