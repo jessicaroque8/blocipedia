@@ -46,6 +46,7 @@ source 'https://rubygems.org'
    gem 'shoulda'
    gem 'factory_bot_rails'
    gem 'byebug'
+   gem 'faker'
  end
 
   gem 'bootstrap-sass'

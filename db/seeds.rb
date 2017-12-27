@@ -1,23 +1,24 @@
-require 'random_data'
+require 'faker'
 
-5.times do
+1.times do
+   pw = Faker::Space.moon
+
    User.create!(
-      email: RandomData.random_email,
-      password: 'valid_password',
-      password_confirmation: 'valid_password'
+      email: Faker::Internet.email,
+      password: pw,
+      password_confirmation: pw
    )
 end
 users = User.all
 
-10.times do
+1.times do
    Wiki.create!(
-      title: RandomData.random_name,
-      body: RandomData.random_paragraph,
+      title: Faker::HarryPotter.book,
+      body: Faker::HarryPotter.quote,
       user: users.sample
    )
 end
 wikis = Wiki.all
 
-puts "Seed finished"
-puts "#{User.count} users created"
-puts "#{Wiki.count} wikis created"
+puts "#{users.count} users created"
+puts "#{wikis.count} wikis created"
