@@ -1,0 +1,15 @@
+<div class="page-header">
+   <h2> <%= @wiki.title %> </h2>
+</div>
+<div class="row">
+   <div class="col-md-8">
+      <p>
+         <%= @wiki.body %>
+      </p>
+   </div>
+
+   <div class="col-md-4">
+      <%= link_to "Edit", edit_wiki_path, class: 'btn btn-warning' %>
+      <%= link_to "Delete", wiki_path, method: :delete, class: 'btn btn-danger' %>
+   </div>
+</div>
