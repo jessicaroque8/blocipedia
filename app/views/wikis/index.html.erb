@@ -3,9 +3,14 @@
 </div>
 <div class="row">
    <div class="col-md-8">
-      <% @wikis.each do |wiki| %>
+      <% policy_scope(@wikis).each do |wiki| %>
          <div class="media">
-            <h4 class="media-heading"><%= link_to wiki.title, wiki %></h4>
+            <h4 class="media-heading">
+               <%= link_to wiki.title, wiki %>
+               <% if wiki.private %>
+                  <small>Private</small>
+               <% end %>
+            </h4>
          </div>
       <% end %>
    </div>

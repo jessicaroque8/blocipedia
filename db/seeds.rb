@@ -1,7 +1,7 @@
 require 'faker'
 
 1.times do
-   pw = Faker::Space.moon
+   pw = Faker::Internet.password
 
    User.create!(
       email: Faker::Internet.email,

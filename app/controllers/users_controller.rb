@@ -13,23 +13,12 @@ class UsersController < ApplicationController
       @user.role = :standard
       @user.save
 
+      wikis = Wiki.all
+      user_wikis = wikis.where(user_id: @user.id)
+      user_wikis.all.update(private: false)
+
       if @user.save
         flash[:notice] = "Your account type has been changed to standard."
-        redirect_back(fallback_location: 'users/settings')
-     else
-        flash.now[:alert] = "There was an error when trying to change your account type. Please try again."
-        render :edit
-     end
-   end
-
-# currently not being used anywhere
-   def set_role_premium
-      @user = current_user
-      @user.role = :premium
-      @user.save
-
-      if @user.save
-        flash[:notice] = "Your account type has been changed to premium."
         redirect_back(fallback_location: 'users/settings')
      else
         flash.now[:alert] = "There was an error when trying to change your account type. Please try again."

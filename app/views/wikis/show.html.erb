@@ -1,5 +1,13 @@
 <div class="page-header">
    <h2> <%= @wiki.title %> </h2>
+   <% if @wiki.private %>
+      <p>
+         <strong>Private</strong>
+      </p>
+   <% end %>
+   <p>
+      <strong>Last updated:</strong> <%= @wiki.updated_at.to_s(:short) %>
+   </p>
 </div>
 <div class="row">
    <div class="col-md-8">

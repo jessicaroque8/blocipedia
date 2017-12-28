@@ -10,4 +10,12 @@ class User < ApplicationRecord
 
    enum role: [:admin, :standard, :premium]
 
+   def self.admin?
+      self.role = :admin ? true : false
+   end
+
+   def self.premium?
+      self.role = :premium ? true : false
+   end
+
 end

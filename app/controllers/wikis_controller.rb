@@ -1,6 +1,6 @@
 class WikisController < ApplicationController
   def index
-     @wikis = Wiki.all
+     @wikis = policy_scope(Wiki)
   end
 
   def new
@@ -10,6 +10,7 @@ class WikisController < ApplicationController
 
   def show
      @wiki = Wiki.find(params[:id])
+     authorize @wiki
   end
 
   def edit
@@ -22,6 +23,7 @@ class WikisController < ApplicationController
      authorize @wiki
      @wiki.title = params[:wiki][:title]
      @wiki.body = params[:wiki][:body]
+     @wiki.private = params[:wiki][:private]
      @wiki.user = current_user
 
      if @wiki.save
@@ -37,7 +39,7 @@ class WikisController < ApplicationController
   def update
      @wiki = Wiki.find(params[:id])
      authorize @wiki
-     @wiki.assign_attributes(params.require(:wiki).permit(:title, :body))
+     @wiki.assign_attributes(params.require(:wiki).permit(:title, :body, :private))
 
      if @wiki.save
         flash[:notice] = "Wiki updated."
