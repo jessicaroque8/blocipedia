@@ -25,7 +25,9 @@ class WikiPolicy < ApplicationPolicy
      end
 
      def resolve
-        if user.admin?
+        if user.nil?
+          scope.where(private: false)
+        elsif user.admin?
           scope.all
         elsif user.standard?
           scope.where(private: false)
