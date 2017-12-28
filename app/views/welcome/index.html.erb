@@ -2,7 +2,11 @@
    <h1>Blocipedia</h1>
    <h2>Because it's fun to be the friend who knows things.</h2>
    <p>
-      <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-lg btn-primary' %> today to start creating and sharing wikis.
+      <% if current_user.nil? %>
+         <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-lg btn-primary' %> today to start creating and sharing wikis.
+      <% else %>
+         <%= link_to "Get your wiki on.", wikis_path, class: 'btn btn-lg btn-primary' %>
+      <% end %>
    </p>
 </div>
 

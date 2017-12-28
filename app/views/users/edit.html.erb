@@ -1,0 +1,17 @@
+<div class="page-header">
+   <h1>Account Settings</h1>
+</div>
+
+<div class="row">
+   <div class="col-md-8">
+      <h4>Account Type</h4>
+         <p><%= current_user.role.capitalize %></p>
+         <% if current_user.role == 'standard' %>
+            <p>Upgrade your account to make private wikis.</p>
+            <%= render :partial => 'charges/button', :controller => 'charges' %>
+         <% elsif current_user.role == 'premium' %>
+            <p> <%= link_to 'Downgrade account.', downgrade_path, method: :post %> </p>
+         <% end %>
+
+   </div>
+</div>
