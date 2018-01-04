@@ -9,6 +9,16 @@ require 'faker'
       password_confirmation: pw
    )
 end
+
+1.times do
+   pw = 'helloworld'
+
+   User.create!(
+      email: 'test@email.com',
+      password: 'helloworld',
+      password_confirmation: 'helloworld'
+   )
+end
 users = User.all
 
 1.times do

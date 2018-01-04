@@ -47,6 +47,7 @@ source 'https://rubygems.org'
    gem 'factory_bot_rails'
    gem 'byebug'
    gem 'faker'
+   gem 'stripe-ruby-mock', '~> 2.5.0', :require => 'stripe_mock'
  end
 
   gem 'bootstrap-sass'

@@ -18,8 +18,16 @@ RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+  config.before(:each) do
+     @stripe_test_helper = StripeMock.create_test_helper
+    StripeMock.start
+  end
+  
+  config.after(:each) do
+    StripeMock.stop
+  end
+
   require 'pundit/rspec'
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`

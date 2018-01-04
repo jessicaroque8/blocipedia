@@ -14,6 +14,10 @@ class User < ApplicationRecord
       self.role = :admin ? true : false
    end
 
+   def self.standard?
+      self.role = :admin ? true : false
+   end
+
    def self.premium?
       self.role = :premium ? true : false
    end

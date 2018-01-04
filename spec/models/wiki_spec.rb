@@ -13,4 +13,10 @@ RSpec.describe Wiki, type: :model do
       end
    end
 
+   describe "defaults" do
+      it "sets private to false if value is not provided by user" do
+         expect(my_wiki.private?).to be_falsey
+      end
+   end
+
 end

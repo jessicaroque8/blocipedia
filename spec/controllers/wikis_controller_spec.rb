@@ -6,6 +6,7 @@ RSpec.describe WikisController, type: :controller do
    let(:my_user) { create(:user) }
    let(:my_wiki) { create(:wiki, user: my_user) }
 
+
   describe "GET #index" do
     it "returns http success" do
       get :index
