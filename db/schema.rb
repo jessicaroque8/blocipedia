@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171227225325) do
+ActiveRecord::Schema.define(version: 20180105235646) do
 
   create_table "amounts", force: :cascade do |t|
     t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "collaborators", force: :cascade do |t|
+    t.integer "wiki_id"
+    t.integer "user_id"
+    t.boolean "owner"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_collaborators_on_user_id"
+    t.index ["wiki_id"], name: "index_collaborators_on_wiki_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,10 +54,8 @@ ActiveRecord::Schema.define(version: 20171227225325) do
     t.string "title"
     t.text "body"
     t.boolean "private"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_wikis_on_user_id"
   end
 
 end

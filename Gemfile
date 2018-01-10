@@ -48,6 +48,7 @@ source 'https://rubygems.org'
    gem 'byebug'
    gem 'faker'
    gem 'stripe-ruby-mock', '~> 2.5.0', :require => 'stripe_mock'
+   gem 'pry'
  end
 
   gem 'bootstrap-sass'

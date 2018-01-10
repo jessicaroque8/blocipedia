@@ -1,4 +1,5 @@
 class WikisController < ApplicationController
+
   def index
      @wikis = policy_scope(Wiki)
   end
@@ -6,27 +7,33 @@ class WikisController < ApplicationController
   def new
      @wiki = Wiki.new
      authorize @wiki
+     @display_private = current_user.admin? || current_user.premium? ? true : false
+
+     @input = ''
   end
 
   def show
      @wiki = Wiki.find(params[:id])
      authorize @wiki
+
+     @input = ''
   end
 
   def edit
      @wiki = Wiki.find(params[:id])
      authorize @wiki
+     @display_private = (current_user.admin? || (current_user.premium? && @wiki.owner == current_user)) ? true : false
+
   end
 
   def create
-     @wiki = Wiki.new
+     @wiki = Wiki.new(wiki_params)
      authorize @wiki
-     @wiki.title = params[:wiki][:title]
-     @wiki.body = params[:wiki][:body]
-     @wiki.private = params[:wiki][:private]
-     @wiki.user = current_user
 
      if @wiki.save
+        owner = Collaborator.new(wiki_id: @wiki.id, user_id: current_user.id, owner: true)
+        owner.save
+
         flash[:notice] = "Wiki created."
         redirect_to @wiki
      else
@@ -39,10 +46,10 @@ class WikisController < ApplicationController
   def update
      @wiki = Wiki.find(params[:id])
      authorize @wiki
-     @wiki.assign_attributes(params.require(:wiki).permit(:title, :body, :private))
+     @wiki.assign_attributes(wiki_params)
 
-     if @wiki.save
-        flash[:notice] = "Wiki updated."
+     if @wiki.save && @wiki.private
+        flash[:notice] = "Wiki updated. Now that it's private, you can add collaborators."
         redirect_to [@wiki]
      else
         flash.now[:alert] = "There was an error when trying to save the wiki. Please try again."
@@ -62,5 +69,10 @@ class WikisController < ApplicationController
         render :show
      end
   end
+
+  private
+   def wiki_params
+      params.require(:wiki).permit(:title, :body, :private)
+   end
 
 end

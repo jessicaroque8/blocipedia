@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let(:my_user) { create(:user) }
 
+  it {is_expected.to have_many(:collaborators)}
   it { is_expected.to have_many(:wikis) }
 
   describe "custom attributes" do
@@ -14,7 +15,11 @@ RSpec.describe User, type: :model do
         expect(my_user).to respond_to(:admin?)
      end
 
-     it "responds to admin?" do
+     it "responds to standard?" do
+        expect(my_user).to respond_to(:standard?)
+     end
+
+     it "responds to premium?" do
        expect(my_user).to respond_to(:premium?)
      end
   end
@@ -39,6 +44,10 @@ RSpec.describe User, type: :model do
      end
 
      context "admin user" do
+        before do
+           my_user.role = 'admin'
+        end
+
        it "returns false for standard?" do
           expect(my_user.standard?).to be_falsey
        end
@@ -52,7 +61,11 @@ RSpec.describe User, type: :model do
        end
     end
 
-    context "oremium user" do
+    context "premium user" do
+      before do
+         my_user.role = 'premium'
+      end
+
      it "returns false for standard?" do
          expect(my_user.standard?).to be_falsey
      end

@@ -1,6 +1,8 @@
 class User < ApplicationRecord
-   has_many :wikis
-   before_create {self.role = :standard}
+   has_many :collaborators, dependent: :destroy
+   has_many :wikis, through: :collaborators
+
+   before_create { self.role = :standard }
 
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
@@ -8,7 +10,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable,
          :validatable, :confirmable
 
-   enum role: [:admin, :standard, :premium]
+   enum role: [:standard, :premium, :admin]
+
+   # Need to test this
+   # delegate :wikis, to: :collaborators
 
    def self.admin?
       self.role = :admin ? true : false

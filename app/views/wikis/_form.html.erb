@@ -5,19 +5,19 @@
          <%= w.text_field :title, class: 'form-control', placeholder: "Enter wiki title" %>
       </div>
 
-
       <div class="form-group">
          <%= w.label :body %>
          <%= w.text_area :body, rows: 10, class: 'form-control', placeholder: "Enter wiki body" %>
          <small><span><strong>**bold**</strong></span> <span><em>_italics_</em></span> <span>1.  Ordered list item</span> <span>*  Unordered list item</span> <span>>quote</span> <span><a href="https://caleorourke.gitbooks.io/redcarpet-syntax/content/index.html" alt="Resource for Markdown syntax">More.</a></span></small>
       </div>
 
-      <% if current_user.admin? || current_user.premium? %>
+      <% if @display_private %>
         <div class="form-group">
-          <%= w.label :private, class: 'checkbox', class: 'aligned' do %>
+          <%= w.label :private, class: 'aligned' do %>
             <%= w.check_box :private %> Private wiki
           <% end %>
         </div>
+
       <% end %>
 
       <div class="form-group">

@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   resources :wikis
 
+  resources :wikis, only: [] do
+     resources :collaborators, only: [:create, :destroy, :new]
+  end
+
   devise_for :users
 
   get 'users/settings' => 'users#edit'

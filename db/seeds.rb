@@ -1,6 +1,6 @@
 require 'faker'
 
-1.times do
+3.times do
    pw = Faker::Internet.password
 
    User.create!(
@@ -21,14 +21,20 @@ end
 end
 users = User.all
 
-1.times do
+5.times do
    Wiki.create!(
       title: Faker::HarryPotter.book,
       body: Faker::HarryPotter.quote,
-      user: users.sample
    )
 end
 wikis = Wiki.all
 
+wikis.each do |w|
+   owner = Collaborator.new(wiki_id: w.id, user_id: users.sample.id, owner: true)
+   owner.save
+end
+owners = Collaborator.where(owner: true)
+
 puts "#{users.count} users created"
 puts "#{wikis.count} wikis created"
+puts "#{owners.count} collaborators (owners) of wikis created"
