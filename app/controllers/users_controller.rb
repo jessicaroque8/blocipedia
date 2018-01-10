@@ -11,10 +11,9 @@ class UsersController < ApplicationController
    def set_role_standard
       @user = current_user
       @user.role = :standard
-      @user.save
+      @user.save!
 
-      wikis = Wiki.all
-      user_wikis = wikis.where(user_id: @user.id)
+      user_wikis = Wikis.where(user_id: @user.id)
       user_wikis.all.update(private: false)
 
       if @user.save

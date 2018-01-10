@@ -14,7 +14,7 @@ class ChargesController < ApplicationController
       )
 
      current_user.role = :premium
-     current_user.save
+     current_user.save!
      flash[:notice] = "Thanks for upgrading your account, #{current_user.email}! Enjoy the fancy life."
      redirect_back(fallback_location: 'users/settings')
 

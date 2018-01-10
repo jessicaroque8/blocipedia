@@ -8,22 +8,17 @@ class WikisController < ApplicationController
      @wiki = Wiki.new
      authorize @wiki
      @display_private = current_user.admin? || current_user.premium? ? true : false
-
-     @input = ''
   end
 
   def show
      @wiki = Wiki.find(params[:id])
      authorize @wiki
-
-     @input = ''
   end
 
   def edit
      @wiki = Wiki.find(params[:id])
      authorize @wiki
      @display_private = (current_user.admin? || (current_user.premium? && @wiki.owner == current_user)) ? true : false
-
   end
 
   def create
@@ -50,6 +45,9 @@ class WikisController < ApplicationController
 
      if @wiki.save && @wiki.private
         flash[:notice] = "Wiki updated. Now that it's private, you can add collaborators."
+        redirect_to [@wiki]
+     elsif @wiki.save
+        flash[:notice] = "Wiki updated."
         redirect_to [@wiki]
      else
         flash.now[:alert] = "There was an error when trying to save the wiki. Please try again."

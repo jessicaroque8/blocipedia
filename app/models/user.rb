@@ -12,9 +12,6 @@ class User < ApplicationRecord
 
    enum role: [:standard, :premium, :admin]
 
-   # Need to test this
-   # delegate :wikis, to: :collaborators
-
    def self.admin?
       self.role = :admin ? true : false
    end

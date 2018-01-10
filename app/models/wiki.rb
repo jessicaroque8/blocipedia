@@ -25,10 +25,4 @@ class Wiki < ApplicationRecord
      self.private = false if self.private.nil?
   end
 
-  def not_valid_email?(email)
-     unless User.find_by(email: email)
-        true
-     end
-  end
-
 end
