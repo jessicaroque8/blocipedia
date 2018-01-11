@@ -7,7 +7,7 @@ class CollaboratorsController < ApplicationController
 
    def create
       @wiki = Wiki.find_by(id: params[:wiki_id])
-      @count = 0
+      @added = []
       @errors = []
       @input = params[:emails]
          @input.split(',').map(&:strip).each do |email|
@@ -17,17 +17,17 @@ class CollaboratorsController < ApplicationController
                user = User.find_by(email: email)
                collaborator = Collaborator.new(wiki_id: @wiki.id, user_id: user.id, owner: false)
                collaborator.save
-               @count += 1
+               @added << email
             else
                @errors << errors
             end
          end
 
-      unless @errors.nil?
+      unless @errors == []
          flash[:alert] = @errors.join.to_s
          redirect_to new_wiki_collaborator_path
       else
-         flash[:notice] = "#{@count} collaborators added."
+         flash[:notice] = "#{@added.join(',')} added as collaborator(s)."
          redirect_to new_wiki_collaborator_path
       end
 
@@ -48,15 +48,18 @@ class CollaboratorsController < ApplicationController
    private
 
       def validate_email(wiki, email)
-         errors = []
+         e = []
          user = User.find_by(email: email)
+         existing_collaborator = Collaborator.where('wiki_id = ? AND user_id = ?', wiki.id, user.id)
          if !User.find_by(email: email)
-            errors << "#{email} does not exist as a User. "
-         elsif Collaborator.where('wiki_id AND user_id', wiki.id, user.id)
-            errors << "#{email} is already a collaborator on this wiki. "
+            e << "#{email} does not exist as a User. "
+         elsif existing_collaborator.present?
+            e << "#{email} is already a collaborator on this wiki. "
+            byebug
          elsif !email.include?('@')
-            errors << "#{email} is not a valid email. "
+            e << "#{email} is not a valid email. "
          end
+         e
       end
 
 end

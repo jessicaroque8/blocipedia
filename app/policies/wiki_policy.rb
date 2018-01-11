@@ -7,7 +7,11 @@ class WikiPolicy < ApplicationPolicy
   end
 
   def show?
-     true if wiki.private == false || wiki.owner == user
+     true if wiki.private == false || wiki.owner == user || wiki.collaborators.where(user_id: user.id).present?
+  end
+
+  def edit?
+     true if wiki.private == false || wiki.owner == user || wiki.collaborators.where(user_id: user.id).present?
   end
 
   def destroy?
@@ -32,25 +36,25 @@ class WikiPolicy < ApplicationPolicy
                 end
              end
          elsif user.role == 'admin'
-            wikis = scope.all # if the user is an admin, show them all the wikis
+            wikis = scope.all
          elsif user.role == 'premium'
             all_wikis = scope.all
             all_wikis.each do |wiki|
-              if wiki.public? || wiki.owner == user || wiki.collaborators.include?(user)
-                wikis << wiki # if the user is premium, only show them public wikis, or that private wikis they created, or private wikis they are a collaborator on
+              if wiki.public? || wiki.owner == user || wiki.collaborators.where(user_id: user.id).present?
+                wikis << wiki
               end
             end
-         else  # this is the lowly standard user
+         else
             all_wikis = scope.all
             wikis = []
             all_wikis.each do |wiki|
-              if wiki.public? || wiki.collaborators.include?(user)
-                wikis << wiki # only show standard users public wikis and private wikis they are a collaborator on
+              if wiki.public? || wiki.collaborators.where(user_id: user.id).present?
+                wikis << wiki
               end
             end
          end
 
-         wikis # return the wikis array we've built up
+         wikis
      end
 
   end
