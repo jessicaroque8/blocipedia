@@ -46,10 +46,11 @@ source 'https://rubygems.org'
    gem 'shoulda'
    gem 'factory_bot_rails'
    gem 'byebug'
-   gem 'faker'
    gem 'stripe-ruby-mock', '~> 2.5.0', :require => 'stripe_mock'
    gem 'pry'
  end
+
+  gem 'faker'
 
   gem 'bootstrap-sass'
 
