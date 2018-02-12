@@ -15,8 +15,7 @@ class CollaboratorsController < ApplicationController
 
             if errors.length == 0
                user = User.find_by(email: email)
-               collaborator = Collaborator.new(wiki_id: @wiki.id, user_id: user.id, owner: false)
-               collaborator.save
+               collaborator = Collaborator.create(wiki: @wiki, user: user, owner: false)
                @added << email
             else
                @errors << errors
@@ -26,10 +25,10 @@ class CollaboratorsController < ApplicationController
       unless @errors == []
          flash[:alert] = @errors.join.to_s
          redirect_to new_wiki_collaborator_path
-      else
-         flash[:notice] = "#{@added.join(',')} added as collaborator(s)."
-         redirect_to new_wiki_collaborator_path
       end
+
+      flash[:notice] = "#{@added.join(',')} added as collaborator(s)."
+      redirect_to new_wiki_collaborator_path
 
    end
 
